@@ -1,0 +1,20 @@
+Spin up the project med Docker:
+1. docker build -t the_pt_platform_tool .
+
+2. docker run -d -p 3002:3002 --name run_the_pt_platform_tool the_pt_platform_tool
+
+3. docker logs --tail 1000 -f run_the_pt_platform_tool
+
+You can also do all 3 of them in one: 
+
+docker build -t the_woit_platform_tool . && docker run -d -p 3002:3002 --name run_the_woit_pt_platform_tool the_woit_platform_tool && docker logs --tail 1000 -f run_the_woit_pt_platform_tool
+
+
+TO STOP IT:
+
+1.docker stop run_the_woit_pt_platform_tool
+
+2.docker rm run_the_woit_pt_platform_tool
+
+You can also do both of them in one:
+docker stop run_the_woit_pt_platform_tool && docker rm run_the_woit_pt_platform_tool
