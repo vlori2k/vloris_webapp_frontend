@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './app'; // Correct the file extension
+import App from './App'; 
+
+
 
 ReactDOM.createRoot(document.querySelector('#root')).render(<App />);

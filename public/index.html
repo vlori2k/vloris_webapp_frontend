@@ -9,8 +9,14 @@
 
 <div id="root"></div>
 
-<!-- Add a button to trigger data fetching -->
-<button id="fetchDataButton">Fetch Data</button>
+
+
+
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+
+<!-- Your TodoComponent -->
+<script type="module" src="./path/to/TodoComponent.js"></script>
 
 <script>
   // Define a function to handle button click and initiate the API request
@@ -26,6 +32,9 @@
 
   // Attach the fetchData function to the button click event
   document.getElementById('fetchDataButton').addEventListener('click', fetchData);
+
+  // Render the TodoComponent into the root element
+  ReactDOM.render(React.createElement(TodoComponent), document.getElementById('root'));
 </script>
 
 </body>

@@ -7,8 +7,7 @@ const App = () => {
       {/* Add your TodoComponent to render the fetched data */}
       <TodoComponent />
 
-      {/* Add a button to trigger data fetching (if needed in the future) */}
-      {/* <button onClick={() => TodoComponent.fetchData()}>Fetch Data</button> */}
+
     </div>
   );
 };
