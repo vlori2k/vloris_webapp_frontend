@@ -1,6 +1,5 @@
 // Sidebar.js
-import React from 'react';
-import './Sidebar.css';
+import React from "react";
 
 const Sidebar = () => {
   return (
@@ -21,4 +20,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;  // This should be the only export default statement in the file
+export default Sidebar; // This should be the only export default statement in the file
