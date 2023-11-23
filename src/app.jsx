@@ -1,24 +1,25 @@
 import React from 'react';
+import './App.css'; // Import your main CSS file
 
 import Header from './components/header.js';
 import Input from './components/input.js';
 import Footer from './components/footer.js';
-
 import MuscleGroupComponent from './components/muscleGroupsComponent.js';
-
+import Sidebar from './components/side_bar/Sidebar';
+import LoginPage from './pages/loginpage/LoginPage.js';
 
 const App = () => {
   return (
-    <div>
-      <Header />
-      <main>
+    <div id="root">
+      <Sidebar />
 
-        <MuscleGroupComponent />
-        <Input />
-      </main>
-      <Footer />
+        <Header />
+        <LoginPage />
+        {/* Other components or content */}
+        <Footer />
+
     </div>
   );
-}; 
+};
 
 export default App;

@@ -15,7 +15,7 @@ const Header = () => {
 
   return (
     <div style={headerStyle}>
-      <h1>Baby gjyliiiiiiii</h1>
+      <h1>Vloris page</h1>
     </div>
   );
 };
