@@ -1,6 +1,4 @@
-// LoginPage.js
 import React, { useState } from 'react';
-import './LoginPage.css'; // Import your LoginPage.css file
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -14,11 +12,34 @@ const LoginPage = () => {
     setPassword(e.target.value);
   };
 
-  const handleLogin = () => {
-    // Add your login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // You can send the data to your authentication server here
+  const handleLogin = async () => {
+    const loginData = {
+      email_address: email,
+      password: password,
+    };
+
+    try {
+      const response = await fetch('https://restapi-main-01.woit.net/login/standard_login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(loginData),
+      });
+
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('Login successful:', responseData);
+        // Add your logic to handle the successful login response here
+      } else {
+        const errorData = await response.json();
+        console.log('Login failed:', errorData);
+        // Add your logic to handle the failed login response here
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      // Add your logic to handle the error here
+    }
   };
 
   return (
