@@ -1,8 +1,16 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [accessToken, setAccessToken] = useState('');
+  const [tokenExpireTime, setTokenExpireTime] = useState(0);
+  const [refreshToken, setRefreshToken] = useState('');
+  const [userRoleID, setUserRoleID] = useState(0);
+  const [error, setError] = useState({ status: null, message: null });
+
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -29,15 +37,37 @@ const LoginPage = () => {
 
       if (response.ok) {
         const responseData = await response.json();
+
+        // Save necessary information to state
+        setAccessToken(responseData.data.access_token);
+        setTokenExpireTime(responseData.data.token_expire_time);
+        setRefreshToken(responseData.data.refresh_token);
+        setUserRoleID(responseData.user_role_ID);
+
+        // Clear any previous errors
+        setError({ status: null, message: null });
+
         console.log('Login successful:', responseData);
+
+        // Redirect to the main page
+        navigate('/dashboard');
+
         // Add your logic to handle the successful login response here
       } else {
         const errorData = await response.json();
         console.log('Login failed:', errorData);
+
+        // Set the error state to display on the page
+        setError({ status: response.status, message: errorData.message_code || 'Unknown error' });
+        
         // Add your logic to handle the failed login response here
       }
     } catch (error) {
       console.error('Error during login:', error);
+
+      // Set the error state to display on the page
+      setError({ status: null, message: `Error during login: ${error.message}` });
+      
       // Add your logic to handle the error here
     }
   };
@@ -58,6 +88,13 @@ const LoginPage = () => {
           <button type="submit" onClick={handleLogin}>
             Login
           </button>
+
+          {/* Display error message if there is an error */}
+          {error.status && (
+            <div className="error-message">
+              HTTP error {error.status}: {error.message}
+            </div>
+          )}
         </div>
       </div>
     </div>
