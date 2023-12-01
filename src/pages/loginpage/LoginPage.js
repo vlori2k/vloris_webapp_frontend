@@ -2,34 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../authContext';
 
-
 const LoginPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   const [error, setError] = useState({ status: null, message: null });
-  
-  const { loginAccepted } = useAuthContext();
 
-
-  console.log('YOYOYOYO:', loginAccepted);
-  
-  
+  const { loginAccepted, setEmail2, setPassword2 } = useAuthContext();
   const navigate = useNavigate();
 
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
   const handleLogin = async () => {
-    const loginData = {
-      email_address: email,
-      password: password,
-    };
+    // Note: You don't need local state for email and password anymore
 
     try {
       const response = await fetch('https://restapi-main-01.woit.net/login/standard_login', {
@@ -37,14 +17,20 @@ const LoginPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(loginData),
+        body: JSON.stringify({
+          // Use the values directly from the input fields
+          email_address: document.getElementById('email').value,
+          password: document.getElementById('password').value,
+        }),
       });
 
       if (response.ok) {
         const responseData = await response.json();
 
-        
+        // Call the functions from authContext.js
         loginAccepted(responseData);
+        setEmail2(document.getElementById('email').value);
+        setPassword2(document.getElementById('password').value);
 
         // Clear any previous errors
         setError({ status: null, message: null });
@@ -61,7 +47,7 @@ const LoginPage = () => {
 
         // Set the error state to display on the page
         setError({ status: response.status, message: errorData.message_code || 'Unknown error' });
-        
+
         // Add your logic to handle the failed login response here
       }
     } catch (error) {
@@ -69,7 +55,7 @@ const LoginPage = () => {
 
       // Set the error state to display on the page
       setError({ status: null, message: `Error during login: ${error.message}` });
-      
+
       // Add your logic to handle the error here
     }
   };
@@ -81,11 +67,11 @@ const LoginPage = () => {
         <div className="form-wrapper">
           <div className="input-wrapper">
             <label>Email:</label>
-            <input type="email" value={email} onChange={handleEmailChange} />
+            <input type="email" id="email" />
           </div>
           <div className="input-wrapper">
             <label>Password:</label>
-            <input type="password" value={password} onChange={handlePasswordChange} />
+            <input type="password" id="password" />
           </div>
           <button type="submit" onClick={handleLogin}>
             Login
