@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../authContext';
+
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [accessToken, setAccessToken] = useState('');
-  const [tokenExpireTime, setTokenExpireTime] = useState(0);
-  const [refreshToken, setRefreshToken] = useState('');
-  const [userRoleID, setUserRoleID] = useState(0);
-  const [error, setError] = useState({ status: null, message: null });
 
+  const [error, setError] = useState({ status: null, message: null });
+  
+  const { loginAccepted } = useAuthContext();
+
+
+  console.log('YOYOYOYO:', loginAccepted);
+  
+  
   const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
@@ -38,11 +43,8 @@ const LoginPage = () => {
       if (response.ok) {
         const responseData = await response.json();
 
-        // Save necessary information to state
-        setAccessToken(responseData.data.access_token);
-        setTokenExpireTime(responseData.data.token_expire_time);
-        setRefreshToken(responseData.data.refresh_token);
-        setUserRoleID(responseData.user_role_ID);
+        
+        loginAccepted(responseData);
 
         // Clear any previous errors
         setError({ status: null, message: null });

@@ -1,6 +1,8 @@
 // mainpage.js
 
 import React from 'react';
+import { useAuthContext } from '../../authContext';
+
 
 const Dashboard = () => {
   return (
