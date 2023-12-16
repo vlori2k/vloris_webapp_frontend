@@ -7,6 +7,7 @@ import Footer from "./components/footer.js";
 import Sidebar from "./components/side_bar/Sidebar";
 import LoginPage from "./pages/loginpage/loginPage.js";
 import Dashboard from "./pages/mainpage/dashBoard.js";
+import Profile from "./pages/mainpage/profile.js";
 import { AuthProvider } from "./authContext";
 
 const App = () => {
@@ -15,11 +16,11 @@ const App = () => {
       <AuthProvider>
         <Header />
         <div className="main-wrapper">
-          {/* <Sidebar /> */}
           <div className="main-content">
             <Routes>
               <Route path="/" element={<LoginPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/profile" element={<Profile />} /> {/* Add the profile route */}
               {/* Add more routes if needed */}
             </Routes>
           </div>
@@ -31,3 +32,4 @@ const App = () => {
 };
 
 export default App;
+

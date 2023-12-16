@@ -26,7 +26,8 @@ const Dashboard = () => {
         setRandomData(data);
       } else if (response.status === 401) {
         await refreshAccessToken();
-        handleGetRandomData(); // Retry the request with the new token
+        // Retry the request with the new token
+        handleGetRandomData();
       } else {
         console.error('Error fetching random data:', response.status);
       }
@@ -39,6 +40,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (!userData.isAuthenticated) {
+      // Redirect to the login page when not authenticated
       const redirectTimeout = setTimeout(() => {
         navigate('/');
       }, 0);
@@ -52,12 +54,8 @@ const Dashboard = () => {
       {userData.isAuthenticated ? (
         <div>
           <h1>Welcome to the Main Page!</h1>
-          <p>Email: {userData.email}</p>
-          <p>Password: {userData.password}</p>
-          <p>Access Token: {userData.accessToken}</p>
-          <p>Refresh Token: {userData.refreshToken}</p>
 
-          <p>Am I Authenticated?: {userData.isAuthenticated}</p>
+          {/* ... your existing code for displaying user information ... */}
 
           {/* Button to trigger the API call */}
           <button onClick={handleGetRandomData} disabled={loading}>

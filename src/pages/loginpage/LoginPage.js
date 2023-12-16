@@ -5,14 +5,14 @@ import { useAuthContext } from '../../authContext';
 const LoginPage = () => {
   const [error, setError] = useState({ status: null, message: null });
 
-  const { loginAccepted, setEmail2, setPassword2 } = useAuthContext();
+  const { saveLoginData } = useAuthContext();
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     // Note: You don't need local state for email and password anymore
 
     try {
-      const response = await fetch('https://restapi-main-01.woit.net/login/standard_login', {
+      const response = await fetch('http://139.59.156.28:5080/user_auth/standard_login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -28,9 +28,8 @@ const LoginPage = () => {
         const responseData = await response.json();
 
         // Call the functions from authContext.js
-        loginAccepted(responseData);
-        setEmail2(document.getElementById('email').value);
-        setPassword2(document.getElementById('password').value);
+        saveLoginData(responseData);
+
 
         // Clear any previous errors
         setError({ status: null, message: null });

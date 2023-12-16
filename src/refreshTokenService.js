@@ -5,8 +5,9 @@ const RefreshSignature = () => {
 
   const updateToken = useCallback(async () => {
     try {
-      const res = await fetch(`https://restapi-main-01.woit.net/refresh_token`, {
-        method: "POST",
+      //const res = await fetch(`https://restapi-main-01.woit.net/refresh_token`, {
+        const res = await fetch(`http://139.59.156.28:5080/user_auth/refresh_token`, {
+      method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${refresh_token}`,
