@@ -1,5 +1,11 @@
 // AuthContext.js
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useEffect,
+} from 'react';
 
 const AuthContext = createContext();
 
@@ -26,11 +32,14 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     // Refresh token every 5 minutes
-    const tokenRefreshInterval = setInterval(refreshAccessToken, 5 * 60 * 1000);
+    //const tokenRefreshInterval = setInterval(refreshAccessToken, 5 * 60 * 1000);
+    const tokenRefreshInterval = setInterval(() => {
+      refreshAccessToken(userData.refreshToken);
+    }, 20 * 1000);
 
     // Clear interval on component unmount
     return () => clearInterval(tokenRefreshInterval);
-  }, [refreshAccessToken]);
+  }, [refreshAccessToken, userData.refreshToken]);
 
   const saveLoginData = (loginDataReceived) => {
     setUserData((prevUserData) => ({
@@ -48,36 +57,36 @@ export const AuthProvider = ({ children }) => {
         phone_number: loginDataReceived.user.phone_number,
       },
     }));
-  
+
     // Log updated userData after saving login data
     console.log('Login data saved! Updated userData:', userData);
   };
 
-
-  const refreshAccessToken = async () => {
+  const refreshAccessToken = async (refreshToken) => {
     // Implement your logic to refresh the access token
-    console.log('Attempting to refresh access token...');
-    console.log('userData before refresh:', userData);
-  
+    console.log('this is the refreshToken', refreshToken);
     try {
-      const response = await fetch('http://139.59.156.28:5080/user_auth/refresh_token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${userData.refreshToken}`, // Include the Authorization header
-        },
-        body: JSON.stringify({
-          refresh_token: userData.refreshToken,
-        }),
-      });
-  
+      const response = await fetch(
+        'http://139.59.156.28:5080/user_auth/refresh_token',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${refreshToken}`, // Include the Authorization header
+          },
+          body: JSON.stringify({
+            refresh_token: refreshToken,
+          }),
+        }
+      );
+
       if (response.ok) {
         const data = await response.json();
         console.log('Access token refreshed successfully:', data.access_token);
-        
+
         // Update the user data with the new tokens
         saveLoginData(data);
-  
+
         // Log updated userData after saving login data
         console.log('userData after refresh:', userData);
       } else {
@@ -100,7 +109,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ userData, saveLoginData, refreshAccessToken, logout }}>
+    <AuthContext.Provider
+      value={{ userData, saveLoginData, refreshAccessToken, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -24,6 +24,10 @@ const Profile = () => {
           <p>First Name: {userData.user.first_name}</p>
           <p>Last Name: {userData.user.last_name}</p>
           <p>Phone Number: {userData.user.phone_number}</p>
+
+          <p>Access token?: {userData.accessToken}</p>
+          <p>refresh token?: {userData.refreshToken}</p>
+
         </div>
       ) : (
         <p>You are not authenticated. Please log in.</p>
