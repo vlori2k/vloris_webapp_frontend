@@ -31,11 +31,11 @@ export const AuthProvider = ({ children }) => {
   }, [userData]);
 
   useEffect(() => {
-    // Refresh token every 5 minutes
-    //const tokenRefreshInterval = setInterval(refreshAccessToken, 5 * 60 * 1000);
+    // Refresh token every 4 minutes
+
     const tokenRefreshInterval = setInterval(() => {
       refreshAccessToken(userData.refreshToken);
-    }, 20 * 1000);
+    }, 4 * 60 * 1000);
 
     // Clear interval on component unmount
     return () => clearInterval(tokenRefreshInterval);
@@ -63,8 +63,17 @@ export const AuthProvider = ({ children }) => {
   };
 
   const refreshAccessToken = async (refreshToken) => {
-    // Implement your logic to refresh the access token
-    console.log('this is the refreshToken', refreshToken);
+    // Check if the user is still authenticated
+    if (!userData.isAuthenticated) {
+      console.log('User is not authenticated. Skipping token refresh.');
+
+      return;
+    }
+  
+    // Log the refresh token for debugging
+    console.log("user is authenticated, refresh the token")
+    console.log('what is the refresh token we are going to use?:', refreshToken);
+  
     try {
       const response = await fetch(
         'http://139.59.156.28:5080/user_auth/refresh_token',
@@ -79,16 +88,17 @@ export const AuthProvider = ({ children }) => {
           }),
         }
       );
-
+  
       if (response.ok) {
         const data = await response.json();
         console.log('Access token refreshed successfully:', data.access_token);
-
+  
         // Update the user data with the new tokens
         saveLoginData(data);
-
+  
         // Log updated userData after saving login data
         console.log('userData after refresh:', userData);
+
       } else {
         console.error('Error refreshing access token:', response.status);
       }
@@ -98,6 +108,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+
     setUserData({
       isAuthenticated: false,
       accessToken: '',
@@ -106,7 +117,10 @@ export const AuthProvider = ({ children }) => {
       email_address: '',
       user_reg_ID: '',
     });
+    console.log("how does the data look after i log out?", userData)
   };
+
+
 
   return (
     <AuthContext.Provider
