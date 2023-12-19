@@ -1,20 +1,20 @@
 Spin up the project med Docker:
-1. docker build -t vloris_webapp_frontend .
+1. docker build -t vloris_react_app .
 
-2. docker run -d -p 3002:3002 --name run_vloris_webapp_frontend vloris_webapp_frontend
+2. docker run -d -p 3002:3002 --name run_vloris_react_app vloris_react_app
 
-3. docker logs --tail 1000 -f run_vloris_webapp_frontend
+3. docker logs --tail 1000 -f run_vloris_react_app
 
 You can also do all 3 of them in one: 
 
-docker build -t vloris_webapp_frontend . && docker run -d -p 3002:3002 --name run_vloris_webapp_frontend vloris_webapp_frontend && docker logs --tail 1000 -f run_vloris_webapp_frontend
+docker build -t vloris_react_app . && docker run -d -p 3002:3002 --name run_vloris_react_app vloris_react_app && docker logs --tail 1000 -f run_vloris_react_app
 
 
 TO STOP IT:
 
-1.docker stop run_vloris_webapp_frontend
+1.docker stop run_vloris_react_app
 
-2.docker rm run_vloris_webapp_frontend
+2.docker rm run_vloris_react_app
 
 You can also do both of them in one:
-docker stop run_vloris_webapp_frontend && docker rm run_vloris_webapp_frontend
+docker stop run_vloris_react_app && docker rm run_vloris_react_app

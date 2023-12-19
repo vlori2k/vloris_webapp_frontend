@@ -4,7 +4,7 @@ import "./styles/styles.scss"; // Import your main CSS file
 
 import Header from "./components/header.js";
 import Footer from "./components/footer.js";
-import Sidebar from "./components/side_bar/Sidebar";
+//import Sidebar from "./components/side_bar/Sidebar.js";
 import LoginPage from "./pages/loginpage/loginPage.js";
 import Dashboard from "./pages/mainpage/dashBoard.js";
 import Profile from "./pages/mainpage/profile.js";
