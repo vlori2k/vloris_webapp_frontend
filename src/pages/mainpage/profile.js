@@ -108,6 +108,17 @@ const Profile = () => {
         </CardContent>
       </Card>
 
+      <Card style={{ backgroundColor: '#87CEEB', height: '60px' }}>
+        <CardContent>
+          <Typography variant="body1">
+            <span style={{ fontWeight: 'bold', marginRight: '8px' }}>
+              Email Address:
+            </span>
+            {userData.user?.email_address || 'N/A'}
+          </Typography>
+        </CardContent>
+      </Card>
+
       <Card style={{ backgroundColor: '#87CEEB', height: '60px', display: 'flex', alignItems: 'center' }}>
         <CardContent>
           <Typography variant="body1" style={{ display: 'flex', alignItems: 'center' }}>
