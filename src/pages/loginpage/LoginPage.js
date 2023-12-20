@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../authContext';
-import Button from '@mui/material/Button'; // Import Material-UI Button
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const LoginPage = () => {
   const [error, setError] = useState({ status: null, message: null });
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const { saveLoginData } = useAuthContext();
   const navigate = useNavigate();
@@ -31,12 +34,28 @@ const LoginPage = () => {
       } else {
         const errorData = await response.json();
         console.log('Login failed:', errorData);
-        setError({ status: response.status, message: errorData.message_code || 'Unknown error' });
+        setError({
+          status: response.status,
+          message: errorData.detail || response.statusText || 'Unknown error',
+        });
+
+        // Show the Snackbar
+        setOpenSnackbar(true);
+
+        // Close the Snackbar after 2 seconds
+        setTimeout(() => {
+          setOpenSnackbar(false);
+        }, 2000);
       }
+      
     } catch (error) {
       console.error('Error during login:', error);
       setError({ status: null, message: `Error during login: ${error.message}` });
     }
+  };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
   };
 
   return (
@@ -57,11 +76,17 @@ const LoginPage = () => {
             Login
           </Button>
 
-          {error.status && (
-            <div className="error-message">
-              HTTP error {error.status}: {error.message}
-            </div>
-          )}
+          {/* Adjusted Snackbar placement */}
+          <Snackbar
+            open={openSnackbar}
+            autoHideDuration={3000}
+            onClose={handleCloseSnackbar}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+            <MuiAlert elevation={6} variant="filled" severity="error">
+              {`HTTP error ${error.status}: ${error.message}`}
+            </MuiAlert>
+          </Snackbar>
         </div>
       </div>
     </div>
