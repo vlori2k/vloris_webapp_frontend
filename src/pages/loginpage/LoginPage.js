@@ -10,6 +10,10 @@ const LoginPage = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const { saveLoginData } = useAuthContext();
+  const { saveAccessToken } = useAuthContext();
+  const { saveRefreshToken } = useAuthContext();
+
+
   const navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -27,13 +31,26 @@ const LoginPage = () => {
 
       if (response.ok) {
         const responseData = await response.json();
+
+        // Log successful login data
+        console.log('Login successful. Response data:', responseData);
+
+        // Save login data to context
         saveLoginData(responseData);
+        saveAccessToken(responseData.access_token);
+        saveRefreshToken(responseData.refresh_token, responseData.token_expire_time);
+        // Reset error state
         setError({ status: null, message: null });
-        console.log('Login successful:', responseData);
+
+        // Navigate to dashboard
         navigate('/dashboard');
       } else {
         const errorData = await response.json();
-        console.log('Login failed:', errorData);
+
+        // Log login failure data
+        console.log('Login failed. Error data:', errorData);
+
+        // Set error state
         setError({
           status: response.status,
           message: errorData.detail || response.statusText || 'Unknown error',
@@ -50,6 +67,8 @@ const LoginPage = () => {
       
     } catch (error) {
       console.error('Error during login:', error);
+
+      // Set error state
       setError({ status: null, message: `Error during login: ${error.message}` });
     }
   };

@@ -20,15 +20,13 @@ const Profile = () => {
   });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success'); // Added state for success message
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     // Redirect to the login page when not authenticated
     if (!userData.isAuthenticated) {
-      const redirectTimeout = setTimeout(() => {
-        navigate('/');
-      }, 0);
-
-      return () => clearTimeout(redirectTimeout);
+      navigate('/');
     }
   }, [userData.isAuthenticated, navigate]);
 
@@ -60,7 +58,23 @@ const Profile = () => {
         body: JSON.stringify(requestData),
       });
 
-      
+      console.log("PART 1:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+      console.log("PART 1:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+      console.log("PART 1:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+      console.log("PART 1:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+      console.log("PART 1:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+      console.log("PART 1:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+      console.log("PART 1:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+      console.log("PART 1:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+      console.log("PART 1:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+      console.log("PART 1:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+      console.log(userData.accessToken);
+      console.log(userData.refreshToken);      
+      console.log();
+
+
+      console.log('Response Status:', response.status);
+
       if (response.ok) {
         // If the PUT request is successful, refresh the profile page
         saveLoginData({
@@ -73,12 +87,36 @@ const Profile = () => {
           },
         });
 
+        
+        console.log("aaaand PART 2:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+        console.log("aaaand PART 2:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+        console.log("aaaand PART 2:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+        console.log("aaaand PART 2:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+        console.log("aaaand PART 2:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+        console.log("aaaand PART 2:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+        console.log("aaaand PART 2:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+        console.log("aaaand PART 2:: WHAT IS TOKEN AND ACCESS TOKEN HERE?");
+        console.log(userData.accessToken);
+        console.log(userData.refreshToken);      
+        console.log();
+
+        
+        // Set success message and severity
+        setSuccessMessage('User information updated successfully');
+        setSnackbarSeverity('success');
+
+        // Open the Snackbar for success messages
+        setSnackbarOpen(true);
+
         // Exit edit mode
         setEditMode(false);
       } else {
-        // If there is an error, log the error and show a Snackbar
+        // If there is an error, log the error and show an error Snackbar
         console.error('Error updating user data:', response.status);
-        setSnackbarMessage(`Error updating user data: ${response.status}`);
+        setSnackbarMessage(`Error updating user data: ${response.status}. Network error: ${response.statusText}`);
+        setSnackbarSeverity('error');
+
+        // Open the Snackbar for error messages
         setSnackbarOpen(true);
       }
     } catch (error) {
@@ -215,15 +253,15 @@ const Profile = () => {
         )}
       </div>
 
-      {/* Snackbar for displaying error messages */}
+      {/* Snackbar for displaying error or success messages */}
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <MuiAlert elevation={6} variant="filled" onClose={handleSnackbarClose} severity="error">
-          {snackbarMessage}
+        <MuiAlert elevation={6} variant="filled" onClose={handleSnackbarClose} severity={snackbarSeverity}>
+          {snackbarSeverity === 'success' ? successMessage : snackbarMessage}
         </MuiAlert>
       </Snackbar>
     </div>

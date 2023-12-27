@@ -33,21 +33,69 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     // Refresh token every 4 minutes
 
+
+
+
     const tokenRefreshInterval = setInterval(() => {
       refreshAccessToken(userData.refreshToken);
-    }, 4 * 60 * 1000);
+    //}, 4 * 60 * 1000);   //every 4 minutes
+   
+    }, 20* 1000); 
 
     // Clear interval on component unmount
     return () => clearInterval(tokenRefreshInterval);
   }, [refreshAccessToken, userData.refreshToken]);
 
+
+  const saveAccessToken = (accessToken) => {
+    console.log("hei og ja hei og ja saving refresh token");
+    console.log("hei og ja hei og ja saving refresh token");
+    console.log("hei og ja hei og ja saving refresh token");
+    console.log("hei og ja hei og ja saving refresh token");
+    console.log("hei og ja hei og ja saving refresh token");
+    console.log("hei og ja hei og ja saving refresh token");
+    console.log("hei og ja hei og ja saving refresh token");
+    console.log("hei og ja hei og ja saving refresh token");
+    console.log("hei og ja hei og ja saving refresh token");
+    console.log("hei og ja hei og ja saving refresh token");
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      accessToken,
+    }));
+    console.log("ok so how does the access token look now?", userData.accessToken);
+    // Log updated userData after saving access token
+    console.log('Access token saved! Updated userData:', userData);
+  };
+  
+  const saveRefreshToken = (refreshToken, tokenExpireTime) => {
+    console.log("hey hey hey aving refresh token");
+    console.log("hey hey hey aving refresh token");
+    console.log("hey hey hey aving refresh token");
+    console.log("hey hey hey aving refresh token");
+    console.log("hey hey hey aving refresh token");
+    console.log("hey hey hey aving refresh token");
+    console.log("hey hey hey aving refresh token");
+    console.log("hey hey hey aving refresh token");
+    console.log("hey hey hey aving refresh token");
+    console.log("hey hey hey aving refresh token");
+    console.log("hey hey hey aving refresh token");
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      refreshToken,
+      tokenExpireTime, // Add this line to save tokenExpireTime
+  }));
+
+    console.log("ok so how does the refresh token look now?", userData.refreshAccessToken);
+    // Log updated userData after saving refresh token
+    console.log('Refresh token saved! Updated userData:', userData);
+  };
+
+
+
   const saveLoginData = (loginDataReceived) => {
     setUserData((prevUserData) => ({
       ...prevUserData,
       isAuthenticated: true,
-      accessToken: loginDataReceived.access_token,
-      tokenExpireTime: loginDataReceived.token_expire_time,
-      refreshToken: loginDataReceived.refresh_token,
       user: {
         ...prevUserData.user,
         user_reg_ID: loginDataReceived.user.user_reg_ID,
@@ -59,10 +107,43 @@ export const AuthProvider = ({ children }) => {
     }));
 
     // Log updated userData after saving login data
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+    console.log("UPDATING USERDATA!");
+
     console.log('Login data saved! Updated userData:', userData);
   };
 
+
+
   const refreshAccessToken = async (refreshToken) => {
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+    console.log("REFRESHING TOKEN");
+
+
     // Check if the user is still authenticated
     if (!userData.isAuthenticated) {
       console.log('User is not authenticated. Skipping token refresh.');
@@ -124,7 +205,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ userData, saveLoginData, refreshAccessToken, logout }}
+      value={{ userData, saveLoginData, saveAccessToken, saveRefreshToken, refreshAccessToken, logout }}
     >
       {children}
     </AuthContext.Provider>

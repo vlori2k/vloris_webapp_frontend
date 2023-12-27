@@ -1,26 +1,31 @@
-# Use a Node 16 base image
-FROM node:16-alpine 
+# Development stage
+FROM node:16-alpine AS development
 
-# Set the working directory to /app inside the container
 WORKDIR /app
 
-# Copy app files
-COPY . .
-
-# Copy package.json and package-lock.json or yarn.lock
 COPY package*.json ./
 
-# Install app dependencies
+# Install development dependencies
 RUN npm install
 
-# Clear npm cache
-RUN npm cache clean --force
+# Copy the rest of the application code
+COPY . .
 
-# Install Material-UI dependencies
-RUN npm install @mui/material @emotion/react @emotion/styled
-
-# Build the app
+# Build the app for production
 RUN npm run build
+
+# Production stage
+FROM node:16-alpine AS production
+
+WORKDIR /app
+
+# Copy only the built artifacts and necessary files from the development stage
+COPY --from=development /app/build ./build
+COPY --from=development /app/node_modules ./node_modules
+COPY --from=development /app/package*.json ./
+
+# Install only production dependencies
+RUN npm install --only=production
 
 # Set environment to production
 ENV NODE_ENV production
