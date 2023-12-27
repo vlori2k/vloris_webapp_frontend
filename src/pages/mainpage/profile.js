@@ -51,14 +51,16 @@ const Profile = () => {
       };
 
       // Send the PUT request to the server
-      const response = await fetch('http://139.59.156.28:5080/vlori_program/edit_user_data', {
-        method: 'PUT', // Assuming the server supports PUT for updating user data
+      const response = await fetch('http://139.59.156.28:5080/user_auth/change_user_info', {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${userData.accessToken}`,
         },
         body: JSON.stringify(requestData),
       });
 
+      
       if (response.ok) {
         // If the PUT request is successful, refresh the profile page
         saveLoginData({
