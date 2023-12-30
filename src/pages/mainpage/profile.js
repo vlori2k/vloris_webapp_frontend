@@ -149,6 +149,24 @@ const Profile = () => {
       </Card>
 
       <Card style={{ backgroundColor: '#87CEEB', height: '60px' }}>
+      <CardContent>
+        <Typography variant="body1">
+          <span style={{ fontWeight: 'bold', marginRight: '8px' }}>
+            User Role:
+          </span>
+          {userData.user?.user_role_ID === 1 ? (
+            'You are SUPER SUPER admin'
+          ) : userData.user?.user_role_ID === 2 ? (
+            'You are an admin'
+          ) : (
+            'N/A'
+          )}
+        </Typography>
+      </CardContent>
+    </Card>
+
+
+      <Card style={{ backgroundColor: '#87CEEB', height: '60px' }}>
         <CardContent>
           <Typography variant="body1">
             <span style={{ fontWeight: 'bold', marginRight: '8px' }}>

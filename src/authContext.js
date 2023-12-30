@@ -103,6 +103,7 @@ export const AuthProvider = ({ children }) => {
         first_name: loginDataReceived.user.first_name,
         last_name: loginDataReceived.user.last_name,
         phone_number: loginDataReceived.user.phone_number,
+        user_role_ID : loginDataReceived.user.user_role_ID,
       },
     }));
 
